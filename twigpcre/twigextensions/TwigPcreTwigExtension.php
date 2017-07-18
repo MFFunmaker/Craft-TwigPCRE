@@ -17,6 +17,7 @@ class TwigPcreTwigExtension extends \Twig_Extension
             'preg_filter' => new \Twig_Filter_Method($this, '_preg_filter'),
 			'preg_grep' => new \Twig_Filter_Method($this, '_preg_grep'),
 			'preg_match' => new \Twig_Filter_Method($this, '_preg_match'),
+			'preg_match_first' => new \Twig_Filter_Method($this, '_preg_match_first'),
 			'preg_quote' => new \Twig_Filter_Method($this, '_preg_quote'),
 			'preg_replace' => new \Twig_Filter_Method($this, '_preg_replace'),
 			'preg_split' => new \Twig_Filter_Method($this, '_preg_split')
@@ -84,6 +85,32 @@ class TwigPcreTwigExtension extends \Twig_Extension
 		}
 		else {
 			return preg_match($pattern, $subject);
+		}
+	}
+
+
+	/**
+	* Perform a regular expression match and return the firsts matched string.
+	*
+	* @param string $subject
+	* @param string $pattern
+	* @return string
+	*/
+	public function _preg_match_first($subject, $pattern)
+	{
+
+		if (!isset($subject)) {
+			return null;
+		}
+		else {
+			$matches = array();
+			// $matches is passed by reference
+			preg_match($pattern, $subject, $matches);
+			if (!empty($matches[0])) {
+				return $matches[0];
+			} else {
+				return null;
+			}
 		}
 	}
 	
